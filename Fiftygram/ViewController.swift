@@ -99,10 +99,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Core graphics image (CGImage) is an intermediary image format. After filtering, we're converting the image like CIImage -> CGImage -> UIImage.
         if let output = filter.outputImage {
             let cgImage = self.context.createCGImage(output, from: CIImage(image: original)!.extent)
-            let uiImage = UIImage(cgImage: cgImage!)
+            let uiImage = UIImage(cgImage: cgImage!, scale: original.scale, orientation: original.imageOrientation)
             imageView.image = uiImage
         } else {
-            print("Couldn't convert image")
+            showAlert(title: "There was an error!", message: "We couldn't convert the image.", action: "OK")
         }
     }
 
