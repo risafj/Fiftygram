@@ -70,6 +70,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
 
+    @IBAction func savePhoto(_ sender: UIBarButtonItem) {
+        if let imageToSave = imageView.image {
+            UIImageWriteToSavedPhotosAlbum(imageToSave, nil, nil, nil)
+        }
+    }
+
     func display(filter: CIFilter) {
         // Converting the original image (which is an instance of UIImage) to a CIImage.
         filter.setValue(CIImage(image: original), forKey: kCIInputImageKey)

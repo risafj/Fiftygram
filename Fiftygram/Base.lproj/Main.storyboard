@@ -75,6 +75,11 @@
                                 <action selector="choosePhoto:" destination="BYZ-38-t0r" id="lXv-rT-Qjv"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Bux-NY-Irc">
+                            <connections>
+                                <action selector="savePhoto:" destination="BYZ-38-t0r" id="gvh-HZ-hjA"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="VlZ-kI-Fim" id="D93-b3-AlM"/>
