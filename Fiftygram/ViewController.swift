@@ -12,11 +12,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             return
         }
 
-        let filter = CIFilter(name: "CISepiaTone")
-        // Converting the original image (which is an instance of UIImage) to a CIImage.
-        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)
-        filter?.setValue(1.0, forKey: kCIInputIntensityKey)
-        display(filter: filter!)
+        if let filter = CIFilter(name: "CISepiaTone") {
+            filter.setValue(1.0, forKey: kCIInputIntensityKey)
+            display(filter: filter)
+        }
     }
 
     @IBAction func applyNoir() {
@@ -24,9 +23,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             return
         }
 
-        let filter = CIFilter(name: "CIPhotoEffectNoir")
-        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)
-        display(filter: filter!)
+        if let filter = CIFilter(name: "CIPhotoEffectNoir") {
+            display(filter: filter)
+        }
     }
 
     @IBAction func applyVintage() {
@@ -34,9 +33,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             return
         }
 
-        let filter = CIFilter(name: "CIPhotoEffectProcess")
-        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)
-        display(filter: filter!)
+        if let filter = CIFilter(name: "CIPhotoEffectProcess") {
+            display(filter: filter)
+        }
     }
 
     @IBAction func applyGlow() {
@@ -44,9 +43,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             return
         }
 
-        let filter = CIFilter(name: "CIBloom")
-        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)
-        display(filter: filter!)
+        if let filter = CIFilter(name: "CIBloom") {
+            display(filter: filter)
+        }
     }
 
     @IBAction func choosePhoto(_ sender: UIBarButtonItem) {
@@ -62,6 +61,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     func display(filter: CIFilter) {
+        // Converting the original image (which is an instance of UIImage) to a CIImage.
+        filter.setValue(CIImage(image: original), forKey: kCIInputImageKey)
+
         // Core graphics image (CGImage) is an intermediary image format. After filtering, we're converting the image like CIImage -> CGImage -> UIImage.
         let cgImage = self.context.createCGImage(filter.outputImage!, from: CIImage(image: original)!.extent)
         let uiImage = UIImage(cgImage: cgImage!)
