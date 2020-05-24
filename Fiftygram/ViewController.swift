@@ -9,6 +9,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBAction func applySepia() {
         if original == nil {
+            showChoosePhotoAlert()
             return
         }
 
@@ -20,6 +21,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBAction func applyNoir() {
         if original == nil {
+            showChoosePhotoAlert()
             return
         }
 
@@ -30,6 +32,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBAction func applyVintage() {
         if original == nil {
+            showChoosePhotoAlert()
             return
         }
 
@@ -40,6 +43,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBAction func applyGlow() {
         if original == nil {
+            showChoosePhotoAlert()
             return
         }
 
@@ -50,6 +54,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBAction func applyPixellate() {
         if original == nil {
+            showChoosePhotoAlert()
             return
         }
 
@@ -73,19 +78,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func savePhoto(_ sender: UIBarButtonItem) {
         if let imageToSave = imageView.image {
             UIImageWriteToSavedPhotosAlbum(imageToSave, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        } else {
+            showChoosePhotoAlert()
         }
     }
 
     // https://www.hackingwithswift.com/example-code/media/uiimagewritetosavedphotosalbum-how-to-write-to-the-ios-photo-album
     @objc func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
         if let error = error {
-            let ac = UIAlertController(title: "There was an error", message: error.localizedDescription, preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            showAlert(title: "There was an error", message: error.localizedDescription, action: "OK")
         } else {
-            let ac = UIAlertController(title: "Saved!", message: "The edited image has been saved to your photos.", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            showAlert(title: "Saved!", message: "The edited image has been saved to your album.", action: "OK")
         }
     }
 
@@ -113,5 +116,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             imageView.image = image
             original = image
         }
+    }
+
+    func showAlert(title: String, message: String, action: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: action, style: .default))
+        present(ac, animated: true)
+    }
+
+    func showChoosePhotoAlert() {
+        showAlert(title: "Choose a photo first!", message: "", action: "OK")
     }
 }
