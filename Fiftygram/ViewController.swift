@@ -39,6 +39,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         display(filter: filter!)
     }
 
+    @IBAction func applyGlow() {
+        if original == nil {
+            return
+        }
+
+        let filter = CIFilter(name: "CIBloom")
+        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)
+        display(filter: filter!)
+    }
+
     @IBAction func choosePhoto(_ sender: UIBarButtonItem) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let picker = UIImagePickerController()
@@ -52,10 +62,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     func display(filter: CIFilter) {
-        let output = filter.outputImage!
-        // Core graphics image (CGImage) is an intermediary image format.
-        // "output!.extent" is just the size of the image, which we need to provide as a param.
-        imageView.image = UIImage(cgImage: self.context.createCGImage(output, from: output.extent)!)
+        // Core graphics image (CGImage) is an intermediary image format. After filtering, we're converting the image like CIImage -> CGImage -> UIImage.
+        let cgImage = self.context.createCGImage(filter.outputImage!, from: CIImage(image: original)!.extent)
+        let uiImage = UIImage(cgImage: cgImage!)
+        imageView.image = uiImage
     }
 
     // Runs after user is done choosing an image in the imagePicker.
