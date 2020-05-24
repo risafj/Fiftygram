@@ -60,7 +60,10 @@
                                 <rect key="frame" x="136" y="746" width="142" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="Sketch"/>
+                                <state key="normal" title="Pixellate"/>
+                                <connections>
+                                    <action selector="applyPixellate" destination="BYZ-38-t0r" eventType="touchUpInside" id="vuc-h2-MEF"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

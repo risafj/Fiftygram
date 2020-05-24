@@ -48,6 +48,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
 
+    @IBAction func applyPixellate() {
+        if original == nil {
+            return
+        }
+
+        if let filter = CIFilter(name: "CIHexagonalPixellate") {
+            display(filter: filter)
+        }
+    }
+
     @IBAction func choosePhoto(_ sender: UIBarButtonItem) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let picker = UIImagePickerController()
@@ -65,9 +75,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         filter.setValue(CIImage(image: original), forKey: kCIInputImageKey)
 
         // Core graphics image (CGImage) is an intermediary image format. After filtering, we're converting the image like CIImage -> CGImage -> UIImage.
-        let cgImage = self.context.createCGImage(filter.outputImage!, from: CIImage(image: original)!.extent)
-        let uiImage = UIImage(cgImage: cgImage!)
-        imageView.image = uiImage
+        if let output = filter.outputImage {
+            let cgImage = self.context.createCGImage(output, from: CIImage(image: original)!.extent)
+            let uiImage = UIImage(cgImage: cgImage!)
+            imageView.image = uiImage
+        } else {
+            print("Couldn't convert image")
+        }
     }
 
     // Runs after user is done choosing an image in the imagePicker.
